@@ -28,7 +28,10 @@ const WordRelay = () => {
         <>
             <div>{word}</div>
             <form onSubmit={onSubmitForm}>
+                <label htmlFor="wordInput">글자를 입력하세요</label>
                 <input
+                    id="wordInput"
+                    className="wordInput"
                     type="text"
                     ref={inputRef}
                     value={value}

@@ -1,6 +1,7 @@
 const path = require("path");
 const webpack = require("webpack");
 const RefreshWebpackPlugin = require("@pmmmwh/react-refresh-webpack-plugin");
+// process.env.NODE_ENV = "production"; //
 
 module.exports = {
     name: "wordrelay-setting",
