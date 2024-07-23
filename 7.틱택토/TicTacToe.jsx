@@ -1,5 +1,6 @@
 import React, {
     act,
+    memo,
     useCallback,
     useEffect,
     useReducer,
@@ -20,6 +21,7 @@ const initialState = {
 export const SET_WINNER = "SET_WINNER";
 export const CLICK_CELL = "CLICK_CELL";
 export const CHANGE_TURN = "SET_TURN";
+export const RESET_GAME = "RESET_GAME";
 const reducer = (state, action) => {
     switch (action.type) {
         case SET_WINNER:
@@ -42,9 +44,22 @@ const reducer = (state, action) => {
                 ...state,
                 turn: state.turn === "O" ? "X" : "O",
             };
+        case RESET_GAME:
+            return {
+                ...state,
+                turn: "O",
+                tableData: [
+                    ["", "", ""],
+                    ["", "", ""],
+                    ["", "", ""],
+                ],
+                recentCell: [-1, -1],
+            };
+        default:
+            return state;
     }
 };
-const TicTacToe = () => {
+const TicTacToe = memo(() => {
     const [state, dispatch] = useReducer(reducer, initialState);
     const { tableData, turn, winner, recentCell } = state;
     // const [winner, setWinner] = useState("");
@@ -55,7 +70,6 @@ const TicTacToe = () => {
     //     ["", "", ""],
     // ]);
     useEffect(() => {
-        console.log("useEffect");
         const [row, cell] = recentCell;
         if (row < 0) {
             return;
@@ -89,14 +103,28 @@ const TicTacToe = () => {
         ) {
             win = true;
         }
-        console.log("win", win, tableData, turn);
+        // console.log("win", win, tableData, turn);
         if (win) {
             //승리시
             dispatch({ type: SET_WINNER, winner: turn });
+            dispatch({ type: RESET_GAME });
         } else {
+            let all = true;
             // 무승부검사
-            console.log("무승부");
-            dispatch({ type: CHANGE_TURN });
+            // console.log("무승부");
+
+            tableData.forEach((row) => {
+                row.forEach((cell) => {
+                    if (!cell) {
+                        all = false;
+                    }
+                });
+            });
+            if (all) {
+                dispatch({ type: RESET_GAME });
+            } else {
+                dispatch({ type: CHANGE_TURN });
+            }
         }
     }, [recentCell]);
 
@@ -113,6 +141,6 @@ const TicTacToe = () => {
             {winner && <div>{winner}님의 승리</div>}
         </>
     );
-};
+});
 
 export default TicTacToe;
