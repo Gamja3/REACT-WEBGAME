@@ -7,14 +7,15 @@ export const CODE = {
     QUESTION: -2,
     FLAG: -3,
     QUESTION_MINE: -4,
-    FLAG_MINE: -6,
+    FLAG_MINE: -5,
+    CLICKED_MINE: -6,
     OPENED: 0, // 0 이상이면 다 OPENED 가 되게
 };
 
 const Form = () => {
-    const [row, setRow] = useState();
-    const [cell, setCell] = useState();
-    const [mine, setMine] = useState();
+    const [row, setRow] = useState("10");
+    const [cell, setCell] = useState("10");
+    const [mine, setMine] = useState("10");
     const { dispatch } = useContext(TableContext);
 
     const onChangeRow = useCallback((e) => {
