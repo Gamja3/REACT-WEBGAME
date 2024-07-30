@@ -1,4 +1,4 @@
-import React, { useCallback, useContext } from "react";
+import React, { memo, useCallback, useContext, useMemo } from "react";
 import {
     OPEN_SELL,
     TableContext,
@@ -38,6 +38,7 @@ const getTdStyle = (code) => {
     }
 };
 const getTdText = (code) => {
+    console.log("getTDtexst");
     switch (code) {
         case CODE.NORMAL:
             return "";
@@ -55,7 +56,7 @@ const getTdText = (code) => {
             return code || "";
     }
 };
-const Td = ({ rowIndex, cellIndex }) => {
+const Td = memo(({ rowIndex, cellIndex }) => {
     const { tableData, dispatch, halted } = useContext(TableContext);
 
     const onClickTd = useCallback(() => {
@@ -115,15 +116,18 @@ const Td = ({ rowIndex, cellIndex }) => {
         },
         [tableData[rowIndex][cellIndex], halted]
     );
-    return (
-        <td
-            style={getTdStyle(tableData[rowIndex][cellIndex])}
-            onClick={onClickTd}
-            onContextMenu={onRightClickTd}
-        >
-            {getTdText(tableData[rowIndex][cellIndex])}
-        </td>
+    return useMemo(
+        () => (
+            <td
+                style={getTdStyle(tableData[rowIndex][cellIndex])}
+                onClick={onClickTd}
+                onContextMenu={onRightClickTd}
+            >
+                {getTdText(tableData[rowIndex][cellIndex])}
+            </td>
+        ),
+        [tableData[rowIndex][cellIndex], halted]
     );
-};
+});
 
 export default Td;

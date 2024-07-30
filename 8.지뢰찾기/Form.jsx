@@ -1,4 +1,4 @@
-import React, { useCallback, useState, useContext } from "react";
+import React, { useCallback, useState, useContext, memo } from "react";
 import { START_GAME, TableContext } from "./MineSearch";
 
 export const CODE = {
@@ -12,7 +12,7 @@ export const CODE = {
     OPENED: 0, // 0 이상이면 다 OPENED 가 되게
 };
 
-const Form = () => {
+const Form = memo(() => {
     const [row, setRow] = useState("10");
     const [cell, setCell] = useState("10");
     const [mine, setMine] = useState("10");
@@ -56,6 +56,6 @@ const Form = () => {
             </div>
         </>
     );
-};
+});
 
 export default Form;

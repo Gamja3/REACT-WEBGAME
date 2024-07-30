@@ -132,10 +132,6 @@ const reducer = (state, action) => {
                         tableData[row - 1][cell + 1],
                     ]);
                 }
-                // around = around.concat([
-                //     tableData[row][cell - 1],
-                //     tableData[row][cell + 1],
-                // ]);
                 if (tableData[row + 1]) {
                     around = around.concat([
                         tableData[row + 1][cell - 1],
@@ -146,9 +142,9 @@ const reducer = (state, action) => {
                 const count = around.filter((v) =>
                     [CODE.MINE, CODE.FLAG_MINE, CODE.QUESTION_MINE].includes(v)
                 ).length;
-                console.log(around, count);
                 tableData[row][cell] = count;
                 if (count === 0) {
+                    //주변칸 오픈
                     const near = [];
                     if (row - 1 > -1) {
                         near.push([row - 1, cell - 1]);
@@ -157,7 +153,7 @@ const reducer = (state, action) => {
                     }
                     near.push([row, cell - 1]);
                     near.push([row, cell + 1]);
-                    if (row + 1 > tableData.length) {
+                    if (row + 1 < tableData.length) {
                         near.push([row + 1, cell - 1]);
                         near.push([row + 1, cell]);
                         near.push([row + 1, cell + 1]);
